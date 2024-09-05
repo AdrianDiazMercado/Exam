@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import { UserPayload } from 'global-interfaces'
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  
+  const [count, setCount] = useState(0)
+  const user: UserPayload = {email: '',id:count, name:""};
   return (
     <>
       <div>
@@ -16,7 +19,11 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Vite + React
+        <hr />
+    {JSON.stringify({user})}
+
+      </h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}

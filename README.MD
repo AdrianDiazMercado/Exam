@@ -1,11 +1,9 @@
 
 ## Documentation
 
-
 ## Configuración Paso a Paso
 
 ### Paso 1: Instalar Turborepo
-
 1. **Inicializa un proyecto nuevo**:
     ```bash
     mkdir my-monorepo
