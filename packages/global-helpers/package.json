@@ -5,9 +5,5 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }
