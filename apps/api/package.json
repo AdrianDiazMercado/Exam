@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "global-helpers": "file:../../packages/global-helpers",
+    "global-interfaces": "file:../../packages/global-interfaces"
   }
 }
