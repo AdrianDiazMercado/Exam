@@ -1,9 +1,5 @@
 import express, { Router } from 'express';
 import db from '../config/db';
-import createClients from 'src/postgresql/data/client.seed'; 
-import Client from 'src/postgresql/models/client.model';
-import { EncryptAdapter } from 'src/config/bcrypt';
-import { customJsonMiddleware } from './middlewares/customJson.middleware';
 
 const cors = require("cors");
 
@@ -32,22 +28,13 @@ export class Server {
         allowedHeaders: ["Content-Type", "Authorization"],
       })
     );
-
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(customJsonMiddleware); // Middleware para inicializar CustomJson
     this.app.use(this.routes);
-
     try {
       await db.authenticate();
       await db.sync();
-      
-      // const hashedPassword = await EncryptAdapter.hash('clientmavipasswordsecurity');
-      // await Client.create({ 
-      //   txt_nombre: 'clientMavi',
-      //   txt_email: 'clientMavi@gmail.com',
-      //   txt_password: hashedPassword
-      // });
+
       console.log('Conexión exitosa a la base de datos');
     } catch (error) {
       console.error('Conexión incompleta a la base de datos:', error);

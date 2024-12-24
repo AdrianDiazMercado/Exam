@@ -10,10 +10,12 @@ import { ValidationGroups } from "src/common/enum/groups.enum";
 import { ValidationDto } from "src/config/validationClass";
 import { LoginUserDto } from "src/domain/dtos/auth/login-user.dto";
 import { LoginUser } from "src/domain/use-cases/login-user.use-case";
+import { ResponseHandler } from "src/presentation/decorators/error-handler.decorator";
 
 export class AuthController {
   constructor(private readonly authRepository: AuthRepository) {}
 
+  @ResponseHandler({type:'controller'})
   public async loginUser(req: Request, res: Response) {
     const { body } = req;
     
@@ -33,7 +35,7 @@ export class AuthController {
       result,
     });
   }
-
+  @ResponseHandler({type:'controller'})
   public async registerUser(req: Request, res: Response) {
     const { body } = req;
     //Validacion del DTO
@@ -54,7 +56,7 @@ export class AuthController {
       success: true,
     });
   }
-
+  @ResponseHandler({type:'controller'})
   public async getUser(req: Request, res: Response) {
     const { id } = req.params;
     const result = await new GetUser(this.authRepository).execute({ id: +id });
@@ -65,7 +67,7 @@ export class AuthController {
       result,
     });
   }
-
+  @ResponseHandler({type:'controller'})
   public async updateUser(req: Request, res: Response) {
     const { id } = req.params;
     const { body } = req;
@@ -76,7 +78,7 @@ export class AuthController {
       success: true,
     });
   }
-
+  @ResponseHandler({type:'controller'})
   public async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
     console.log(id, "dame el id");
@@ -87,7 +89,8 @@ export class AuthController {
       success: true,
     });
   }
-
+  
+  @ResponseHandler({type:'controller'})
   public async postAllUser(req: Request, res: Response) {
     const { body } = req;
     const result = await new PostAllUser(this.authRepository).execute(body);

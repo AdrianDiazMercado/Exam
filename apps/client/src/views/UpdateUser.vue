@@ -100,16 +100,12 @@ const backUserInfo = () => {
 }
 
 const handleUpdateUser = async (event: Event) => {
-  console.log(markerPosition)
   event.preventDefault()
   const { success, msg } = await Auth_Service.putUpdateUser(+userId, form)
   if (!success) {
     return sweetAlert.displayAlert({
       success,
       msg,
-      propsAlert: {
-        title: 'Algo salió mal.',
-      },
     })
   }
 

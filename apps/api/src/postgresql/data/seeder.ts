@@ -1,7 +1,7 @@
 import db from "../../config/db";
 import Client from "../models/client.model";
 import User from "../models/user.model";
-import clients from "./client.seed";
+import getClients from "./client.seed";
 
 export class Seeder {
   async run() {
@@ -11,7 +11,7 @@ export class Seeder {
       await db.sync({ force: true });
       console.log("Sincronización exitosa");
       await this.truncateTables();
-      await Client.bulkCreate(clients);
+      await Client.bulkCreate(await getClients());
       console.log("Datos insertados correctamente");
       process.exit(0);
     } catch (error) {

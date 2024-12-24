@@ -69,22 +69,19 @@ const cancelCreate = () => {
 
 const handleCreateUser = async (event: Event) => {
   event.preventDefault()
-  const {success, errors, msg} = await Auth_Service.postCreateUser(form);
+  const {success, msg} = await Auth_Service.postCreateUser(form);
   if(!success){
     sweetAlert.displayAlert({
       msg,
-      errors,
-      propsAlert: {
-        title: 'Error al crear usuario'
-      }
+      success
   })
   return;
   }
-
   sweetAlert.displayAlert({
     msg,
     success
   })
+
   cancelCreate()
 }
 

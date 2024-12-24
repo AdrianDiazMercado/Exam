@@ -14,7 +14,7 @@ Examen de mavi realizado con monorepo, sequelize y vue.
 ## Documentation
 
 ### Descarga del proyecto
-Abrir la terminal y en el directorio que más sea de tu agrado ejecuta:
+Abrir la terminal y en el director donde mas sea de tu agrado ejecuta:
 
 ```bash
 git clone https://github.com/AdrianDiazMercado/Exam.git
@@ -39,3 +39,14 @@ Ejecuta el siguiente comando desde la carpeta raiz:
 ```bach
 npm run dev
  ```
+
+### 5 seeder
+Ejecuta el comando 
+```bash
+npm run seed
+```
+para cargar un cliente y poder utilizar la aplicacion
+```bash
+email: clientMavi@gmail.com
+password: clientmavipasswordsecurity
+```

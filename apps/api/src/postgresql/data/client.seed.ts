@@ -1,13 +1,13 @@
 import { EncryptAdapter } from "../../config/bcrypt";
 
-const clients = [
-	{
-		txt_nombre: 'clientMavi',
-		txt_email: 'clientMavi@gmail.com',
-		txt_password: EncryptAdapter.hash('clientmavipasswordsecurity')
-	}
-]
-
-
-export default clients;
-
+const getClients = async () => {
+  const clients = [
+    {
+      txt_nombre: 'clientMavi',
+      txt_email: 'clientMavi@gmail.com',
+      txt_password: await EncryptAdapter.hash('clientmavipasswordsecurity')
+    }
+  ];
+  return clients;
+};
+export default getClients;

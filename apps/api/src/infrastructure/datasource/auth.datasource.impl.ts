@@ -4,17 +4,19 @@ import { RegisterUserDto } from "../../domain/dtos/auth/register-user.dto";
 import { UpdateUserDto } from "../../domain/dtos/auth/update-user.dto";
 import { UserEntity } from "../../domain/entities/user.entity";
 import User from "../../postgresql/models/user.model";
-import Client from "src/postgresql/models/client.model";
-import { CustomError } from "../../domain/errors/custom.error";
+import Client from "../../postgresql/models/client.model";
 import { UserMapper } from "../mappers/user.mapper";
-import { SearchDto } from "src/domain/dtos/search-user.dto";
+import { SearchDto } from "../../domain/dtos/search-user.dto";
 import { Op, Sequelize } from "sequelize";
-import { LoginUserDto } from "src/domain/dtos/auth/login-user.dto";
-import { ClientEntity } from "src/domain/entities/client.entity";
-import { EncryptAdapter } from "src/config/bcrypt";
-import { JwtAdapter } from "src/config/jwt.adapter";
+import { LoginUserDto } from "../../domain/dtos/auth/login-user.dto";
+import { ClientEntity } from "../../domain/entities/client.entity";
+import { EncryptAdapter } from "../../config/bcrypt";
+import { JwtAdapter } from "../../config/jwt.adapter";
 import { ClientMapper } from "../mappers/client.mapper";
-import { CustomJson } from "src/config/custom-json";
+import { NotFound } from "src/domain/errors/notFound";
+import { BadRequest } from "src/domain/errors/BadRequest";
+
+
 
 //Creacion de "type" para eliminar la dependencia oculta
 type CompareFunction = (password: string, hashDb: string) => Promise<boolean>;
@@ -31,45 +33,34 @@ export class AuthDatasourceImpl implements AuthDatasource {
 
   async postLoginUser(loginUserDto: LoginUserDto): Promise<ClientEntity> {
     const { email, password } = loginUserDto;
-    try {
       const user = await Client.findOne({
         where: {
           txt_email: email,
         },
       });
-
-      if (!user) throw CustomError.notFound("Usuario no encontrado");
+      if (!user) throw new NotFound("Usuario no encontrado");
       const isMatching = await this.compare(
         password,
         user.dataValues.txt_password
       );
-      if (!isMatching) throw CustomError.badRequest("Credenciales incorrectas");
+      if (!isMatching) throw new BadRequest("Credenciales incorrectas");
       const { id, txt_nombre } = user.dataValues;
-      const txt_token = await this.generateToken({ id, txt_nombre}, "8h");
+      const txt_token = await this.generateToken({ id, txt_nombre }, "8h");
       return ClientMapper.clientEntityFromObject({ txt_token });
-    } catch (error) {
-      console.log(error);
-      throw CustomError.internalServerError();
-    }
   }
   async deleteUser(id: IdDto): Promise<void> {
-    try {
       const userDelete = await User.findByPk(id.id);
-      if (!userDelete) throw CustomError.notFound("User not found");
+      if (!userDelete) throw new NotFound("Usuario no encontrado");
       await User.destroy({
         where: {
           id: id.id,
         },
       });
-    } catch (error) {
-      console.log(error);
-      throw CustomError.internalServerError();
-    }
   }
 
   async getUser(id: IdDto): Promise<UserEntity> {
     const result = await User.findByPk(id.id);
-    if (!result) throw CustomError.notFound("User not found");
+    if (!result) throw new NotFound("Usuario no encontrado");
     return UserMapper.userEntityFromObject(result);
   }
 
@@ -90,10 +81,9 @@ export class AuthDatasourceImpl implements AuthDatasource {
       },
     });
 
-    if (emailEqueal) throw CustomJson.response("Email already exists");
+    if (emailEqueal) throw new BadRequest("Email ya existe");
 
-    try {
-      await User.create({
+      const user = await User.create({
         txt_nombres: nombres,
         txt_domicilio: domicilio,
         txt_email: email,
@@ -102,10 +92,7 @@ export class AuthDatasourceImpl implements AuthDatasource {
         txt_lat: lat,
         txt_lng: lng,
       });
-    } catch (error) {
-      console.log(error);
-      throw CustomError.internalServerError();
-    }
+      await user.save();
   }
 
   async updateUser(id: IdDto, updateUserDto: UpdateUserDto): Promise<void> {
@@ -120,9 +107,8 @@ export class AuthDatasourceImpl implements AuthDatasource {
       lng,
     } = updateUserDto;
 
-    try {
       const result = await User.findByPk(id.id);
-      if (!result) throw new Error("User not found");
+      if (!result) throw new NotFound("Usuario no encontrado");
 
       const emailEqueal = await User.findOne({
         where: {
@@ -130,13 +116,9 @@ export class AuthDatasourceImpl implements AuthDatasource {
         },
       });
 
-      if (emailEqueal && emailEqueal!.dataValues.id !== userId) {
-        console.log("ESTA ES LA ENTRADA LOCO");
-        // throw CustomError.badRequest("Email already exists");
-        throw CustomError.badRequest("Email already exists");
-      }
+      if (emailEqueal && emailEqueal!.dataValues.id !== userId)
+        throw new BadRequest("Email ya existe");
 
-      console.log("NO DEBE DE PASAR!!!!!!");
       await User.update(
         {
           txt_nombres: nombres,
@@ -149,10 +131,6 @@ export class AuthDatasourceImpl implements AuthDatasource {
         },
         { where: { id: userId } }
       );
-    } catch (error) {
-      console.log(error);
-      throw CustomError.internalServerError();
-    }
   }
 
   async postAllUser(search: SearchDto): Promise<UserEntity[]> {

@@ -15,6 +15,7 @@ const Client = db.define('client',{
 	txt_email:{
 		type:DataTypes.STRING,
 		allowNull:false,
+		unique: true
 	},
 	txt_password:{ 
 		type:DataTypes.STRING,
