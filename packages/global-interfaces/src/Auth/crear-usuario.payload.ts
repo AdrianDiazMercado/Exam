@@ -1,6 +1,9 @@
 export interface UserPayload {
-	id: number;
-	name: string;
+	nombres: string;
+	primerApellido: string
+	segundoApellido: string
+	domicilio: string
 	email: string;
+	lat: string;
+	lng:  string;
   }
-  
