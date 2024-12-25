@@ -63,6 +63,7 @@ onMounted(() => {
           </BCol>
         </BRow >
 
+        <div class="div-table">
         <BTable
           hover
           :items="usersData"
@@ -75,6 +76,7 @@ onMounted(() => {
           ]"
           @row-clicked="handleRowClick"
         />
+      </div>
       </BCardBody>
     </BCard>
   </div>
@@ -89,8 +91,35 @@ onMounted(() => {
 .card-b-home {
   width: 100%;
   min-height: 96vh;
+  display: flex;
+  flex-direction: column;
 }
+
 .button-create-home {
   width: 100%;
 }
+
+.div-table {
+  max-height: 72vh;
+  overflow-y: auto;
+}
+
+.div-table::-webkit-scrollbar {
+  width: 8px;
+}
+
+.div-table::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.div-table::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.div-table::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 </style>
