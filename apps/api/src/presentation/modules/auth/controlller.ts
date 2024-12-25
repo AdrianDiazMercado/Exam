@@ -84,7 +84,7 @@ export class AuthController {
     console.log(id, "dame el id");
     await new DeleteUser(this.authRepository).execute({ id: +id });
     res.status(200).json({
-      msg: "Usuario eliminadoo correctamente",
+      msg: "Usuario eliminado correctamente",
       code: 200,
       success: true,
     });
