@@ -1,4 +1,3 @@
-
 # Examen Mavi
 
 Examen de mavi realizado con monorepo, sequelize y vue.
@@ -20,7 +19,7 @@ Abrir la terminal y en el director donde mas sea de tu agrado ejecuta:
 ```bash
 git clone https://github.com/AdrianDiazMercado/Exam.git
 ```
-### 2. Dirigirse a la carpeta raiz del archivo y instalar las dependencias: 
+### 2. Dirigirse a la carpeta raíz del archivo e instalar las dependencias: 
 ```bash
 npm install
 ```
@@ -28,10 +27,10 @@ npm install
 npx turbo run build
 ```
 ### 3. Crear archivo .env
-1. Dirigete a la carpeta \apps\api\ y crea un archivo `.env` desde el documento `.env-templete` que se encuentra ahi, copia y pega el contenido en `.env`
+1. Dirígete a la carpeta \apps\api\ y crea un archivo `.env` desde el documento `.env-templete` que se encuentra ahí, copia y pega el contenido en `.env`
 
 ### 4. Crear entorno de DB
-1. Con el archivo `.env` creado, dirigete a tu herramienta de administración de bases de datos para crear una conexion postgres.
+1. Con el archivo `.env` creado, dirígete a tu herramienta de administración de bases de datos para crear una conexión postgres.
 
 2. Colocar los datos correspondientes desde `.env` en tu herramienta de administración de bases de datos.
 
@@ -40,14 +39,14 @@ Ejecuta el comando
 ```bash
 npm run seed
 ```
-para cargar un cliente y poder utilizar la aplicacion
+para cargar un cliente y poder utilizar la aplicación
 ```bash
 email: clientMavi@gmail.com
 password: clientmavipasswordsecurity
 ```
 
 ### 6 Iniciar el proyecto
-Ejecuta el siguiente comando desde la carpeta raiz para arrancar turborepo:
+Ejecuta el siguiente comando desde la carpeta raíz para arrancar turborepo:
 ```bach
 npm run dev
- ```
+ ```
